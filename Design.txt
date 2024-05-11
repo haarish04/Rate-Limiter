@@ -1,0 +1,6 @@
+A simple txt file to keep track of my progress and how I designed this application
+
+Initially tried to setup a web server using elysia.js just as a way of experimenting new tools but faced some issues when I tried setting it up and hence decided to go for the classic node + express
+A simple express app was hosted on port 3000 and some basic routes were setup.
+
+The next step was to setup postman to test the API endpoints were working or not.
