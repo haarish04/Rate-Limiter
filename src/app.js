@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 
 const PORT = process.env.PORT || 3000;
 
@@ -20,11 +20,21 @@ app.get("/status", (request, repsonse) => {
 });
 
 //Limited endpoint
+
 app.get("/limited", (request, response) => {
-  response.send("Excess load");
+  response.send("Limited!");
 });
 
 //Unlimited endpoint
 app.get("/unlimited", (request, response) => {
   response.send("Unlimited!");
 });
+
+// function limitRequests(maxBurst, perSecond) {
+//   const bucket = new TokenBucket(maxBurst, perSecond);
+
+//   return function limiRequestsMiddleware(req, res, next) {
+//     if (bucket.take()) next();
+//     else res.status(429).send("Rate limit exceeded");
+//   };
+// }
