@@ -1,21 +1,21 @@
-export class TokenBucket {
-  constructor(capacity, fillRate) {
-    this.capacity = capacity;
-    this.tokens = capacity;
+function TokenBucket(rate, capacity) {
+  let tokens = capacity;
+  let lastCheck = Date.now();
 
-    setInterval(() => this.addToken(), 1000 / fillRate);
-  }
+  return function handle() {
+    const now = Date.now();
+    const deltaTime = now - lastCheck;
+    lastCheck = now;
 
-  addToken() {
-    if (this.tokens < this.capacity) this.tokens += 1;
-  }
+    const newToken = (deltaTime * rate) / 1000;
+    tokens = Math.min(capacity, tokens + newToken);
 
-  take() {
-    if (this.tokens > 0) {
-      this.tokens -= 1;
+    if (tokens < 1) return false;
+    else {
+      tokens -= 1;
       return true;
     }
-
-    return false;
-  }
+  };
 }
+
+module.exports = TokenBucket;

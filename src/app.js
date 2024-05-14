@@ -1,5 +1,5 @@
-import express from "express";
-
+const express = require("express");
+const TokenBucket = require("./TokenBucket");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -10,31 +10,25 @@ app.listen(PORT, () => {
 });
 
 //Landing page
-app.get("/", (request, repsonse) => {
-  repsonse.send("Welcome Page");
+app.get("/", (req, res) => {
+  if (handleTokens) res.send("Welcome Page");
+  else res.send("L");
 });
 
 //Confirm status page
-app.get("/status", (request, repsonse) => {
-  repsonse.send("Working!");
+app.get("/status", (req, res) => {
+  res.send("Working!");
 });
 
 //Limited endpoint
 
-app.get("/limited", (request, response) => {
-  response.send("Limited!");
+app.get("/limited", (req, res) => {
+  res.send("Limited!");
 });
 
 //Unlimited endpoint
-app.get("/unlimited", (request, response) => {
-  response.send("Unlimited!");
+app.get("/unlimited", (req, res) => {
+  res.send("Unlimited!");
 });
 
-// function limitRequests(maxBurst, perSecond) {
-//   const bucket = new TokenBucket(maxBurst, perSecond);
-
-//   return function limiRequestsMiddleware(req, res, next) {
-//     if (bucket.take()) next();
-//     else res.status(429).send("Rate limit exceeded");
-//   };
-// }
+const handleTokens = TokenBucket(25, 35);
