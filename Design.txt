@@ -8,6 +8,7 @@ Setup postman extension on vscode for testing. Created new collection called tes
 Running performance tests is not available in the extension, so had to boot up the Postman client for it.
 
 Setup all the endpoints in one collection and run performance test by setting up the number of virtual users and time duration. To stress test the API, ramp up the virtual users.
+Rther then using type: module in the package.json file, if I leave it as default, it assumes the .mjs/.cjs extension. In order to import packages I need to use the require statement instead of import.
 
 Now moving onto the rate limiting algorithm, there are a number of algorithms to pick from. I will be trying out a few of them such as:
 
