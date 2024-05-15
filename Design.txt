@@ -16,3 +16,6 @@ Token Bucket: Tokens are added to a ‘bucket’ at a fixed rate. The bucket has
 Fixed window counter - Record the number of requests from a sender occurring in the rate limit’s fixed time interval, if it exceeds the limit the request is rejected.
 Sliding window counter - Similar to the fixed window, but each request is timestamped and the window slides.
 
+<---------------------------------------------------------------->
+
+The first implementation was using token bucket algo. 
