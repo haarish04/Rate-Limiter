@@ -18,4 +18,11 @@ Sliding window counter - Similar to the fixed window, but each request is timest
 
 <---------------------------------------------------------------->
 
-The first implementation was using token bucket algo. 
+The first implementation is using token bucket algo. 
+
+There is a ‘bucket’ that has capacity for N tokens. Usually this is a bucket per user or IP address.
+Every time period a new token is added to the bucket, if the bucket is full the token is discarded.
+When a request arrives and the bucket contains tokens, the request is handled and a token is removed from the bucket.
+When a request arrives and the bucket is empty, the request is declined.
+
+In the first part of the implementation, we are not dealing with IP addresses and just using the virtual users as individual users during testing in postman
