@@ -11,8 +11,8 @@ app.listen(PORT, () => {
 
 //Landing page
 app.get("/", (req, res) => {
-  if (handleTokens) res.send("Welcome Page");
-  else res.send("L");
+  if (handleTokens()) res.send("Welcome Page");
+  else res.status("429").send("L");
 });
 
 //Confirm status page
