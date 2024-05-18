@@ -26,3 +26,6 @@ When a request arrives and the bucket contains tokens, the request is handled an
 When a request arrives and the bucket is empty, the request is declined.
 
 In the first part of the implementation, we are not dealing with IP addresses and just using the virtual users as individual users during testing in postman
+
+First round of testing: Performance testing with ramp up virtual users upto 50 for 5 mins. Error rate was 0, the problem being, when there is excess load, I am not throttling requests and instead sending back response with "Overload".
+This is not considered as error since a response is generated. In order to truly test the throttling, I need to send response code of error
