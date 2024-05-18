@@ -29,3 +29,5 @@ In the first part of the implementation, we are not dealing with IP addresses an
 
 First round of testing: Performance testing with ramp up virtual users upto 50 for 5 mins. Error rate was 0, the problem being, when there is excess load, I am not throttling requests and instead sending back response with "Overload".
 This is not considered as error since a response is generated. In order to truly test the throttling, I need to send response code of error
+Fixed the code to call the function appropriately and also to generate error status code. This was tested: spike pattern to go upto 60 users for 10 secs out of 2 mins of testing
+Results visible in Token Bucket testing figure
