@@ -31,3 +31,11 @@ First round of testing: Performance testing with ramp up virtual users upto 50 f
 This is not considered as error since a response is generated. In order to truly test the throttling, I need to send response code of error
 Fixed the code to call the function appropriately and also to generate error status code. This was tested: spike pattern to go upto 60 users for 10 secs out of 2 mins of testing
 Results visible in Token Bucket testing figure
+
+<---------------------------------------------------------------->
+
+The next implementation is using fixed window counter algorithm
+
+A window size of N seconds is used to track the request rate. Each incoming request increments the counter for the window.
+If the counter exceeds a threshold, the request is discarded.
+The windows are typically defined by the floor of the current timestamp, so 17:47:13 with a 60 second window length, would be in the 17:47:00 window.
