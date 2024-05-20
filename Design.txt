@@ -39,3 +39,12 @@ The next implementation is using fixed window counter algorithm
 A window size of N seconds is used to track the request rate. Each incoming request increments the counter for the window.
 If the counter exceeds a threshold, the request is discarded.
 The windows are typically defined by the floor of the current timestamp, so 17:47:13 with a 60 second window length, would be in the 17:47:00 window.
+
+<---------------------------------------------------------------->
+
+The next algorithm is the sliding window log method.
+
+Tracking a time stamped log for each consumer request. These logs are usually stored in a hash set or table that is sorted by time.
+Logs with timestamps beyond a threshold are discarded.
+When a new request comes in, we calculate the sum of logs to determine the request rate.
+If the request when added to the log would exceed the threshold rate, then it is declined.
