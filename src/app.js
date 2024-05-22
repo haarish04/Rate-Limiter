@@ -13,20 +13,19 @@ app.listen(PORT, () => {
 const handleTokens = TokenBucket(25, 35); //25 tokens/sec and max capacity of 35
 const handleWindow = FixedWindow(15, 1000); // 15 requests per second
 
-//Landing page
+//Landing page, using token bucket algo
 app.get("/", (req, res) => {
   if (handleTokens()) res.send("Welcome Page");
   else res.status("429").send("Bucket empty");
 });
 
-//Confirm status page
+//Confirm status page, using fixed window algo
 app.get("/status", (req, res) => {
   if (handleWindow()) res.send("Working!");
   else res.status("429").send("Window overloaded");
 });
 
 //Limited endpoint
-
 app.get("/limited", (req, res) => {
   res.send("Limited!");
 });
