@@ -48,3 +48,7 @@ Tracking a time stamped log for each consumer request. These logs are usually st
 Logs with timestamps beyond a threshold are discarded.
 When a new request comes in, we calculate the sum of logs to determine the request rate.
 If the request when added to the log would exceed the threshold rate, then it is declined.
+
+The advantage of this algorithm is that it does not suffer from the boundary conditions of fixed windows. The limit will be enforced precisely and because the sliding log is tracked for each consumer, you don’t have the issue that every use can suddenly surge in requests each time a fixed window boundary passes.
+
+The disadvantage is that it needs to store an unlimited number of logs for every request. As the size of the logs grows it can become expensive to compute the summation over all the log entries. As a result it does not scale well to handle large bursts of traffic or denial of service attacks.
