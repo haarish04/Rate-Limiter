@@ -1,6 +1,6 @@
 const express = require("express");
 const TokenBucket = require("./TokenBucket");
-const FixedWindow = require("./FixedWindow");
+const SlidingWindow = require("./SlidingWindow");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -11,7 +11,7 @@ app.listen(PORT, () => {
 });
 
 const handleTokens = TokenBucket(25, 35); //25 tokens/sec and max capacity of 35
-const handleWindow = FixedWindow(15, 1000); // 15 requests per second
+const handleWindow = SlidingWindow(15, 1000); // 15 requests per second
 
 //Landing page, using token bucket algo
 app.get("/", (req, res) => {

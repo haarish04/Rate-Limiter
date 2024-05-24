@@ -1,4 +1,4 @@
-function FixedWindow(limit, windowSize) {
+function SlidingWindow(limit, windowSize) {
   let count = limit;
   let lastWindow = Date.now();
 
@@ -23,4 +23,4 @@ function FixedWindow(limit, windowSize) {
   };
 }
 
-module.exports = FixedWindow;
+module.exports = SlidingWindow;
