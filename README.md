@@ -20,10 +20,12 @@ Import npm packages
 
 npm install
 
-## Usage
-
 ## Run
 
-Go to root directory of project and run
+Go to root directory of project and run the following command to host the local server and expose the endpoints from app.js
 
 npm start
+
+## Usage
+
+Once the web server is live, open Postman and simulate different tests to check performance of the various load balancer algorithms
