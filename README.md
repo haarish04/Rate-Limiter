@@ -23,3 +23,7 @@ npm install
 ## Usage
 
 ## Run
+
+Go to root directory of project and run
+
+npm start
