@@ -40,6 +40,10 @@ A window size of N seconds is used to track the request rate. Each incoming requ
 If the counter exceeds a threshold, the request is discarded.
 The windows are typically defined by the floor of the current timestamp, so 17:47:13 with a 60 second window length, would be in the 17:47:00 window.
 
+To implement this, I used date.now() at every request and floor it to the nearest second. My implementation is handling x requests per second so I keep track of the nearest second.
+For every request I also keep track of exact time and see if it falls under which second (which window) if count is 0 for that window, throttle the request, else accept it.
+If request minus window time is grater than 1 second, it falls under new window, refresh counter and start new window.
+
 <---------------------------------------------------------------->
 
 The next algorithm is the sliding window log method.
