@@ -32,6 +32,7 @@ This is not considered as error since a response is generated. In order to truly
 Fixed the code to call the function appropriately and also to generate error status code. This was tested: spike pattern to go upto 60 users for 10 secs out of 2 mins of testing
 Results visible in Token Bucket testing figure
 
+Another thing to keep in mind is that postman lets us configure the number of users not specifically no. of requests per second, considering a response takes on average 3-4 ms. Per second there could be upto 250-333 requests per second. But at around 12 -13 requests per second, you can observe requests being failed.
 <---------------------------------------------------------------->
 
 The next implementation is using fixed window counter algorithm
