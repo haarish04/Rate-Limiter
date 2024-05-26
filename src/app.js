@@ -18,19 +18,19 @@ const handleFixedWindow = FixedWindow(15, 1000); // 15 requests per second
 //Landing page, using token bucket algo
 app.get("/", (req, res) => {
   if (handleTokens()) res.send("Welcome Page");
-  else res.status("429").send("Bucket empty");
+  else res.status(429).send("Bucket empty");
 });
 
 //Confirm status page, using fixed window algo
 app.get("/status", (req, res) => {
   if (handleSlidingWindow()) res.send("Working!");
-  else res.status("429").send("Window overloaded");
+  else res.status(429).send("Window overloaded");
 });
 
 //Limited endpoint
 app.get("/limited", (req, res) => {
   if (handleFixedWindow()) res.send("Working !");
-  else res.status("429").send("Window overloaded");
+  else res.status(429).send("Window overloaded");
 });
 
 //Unlimited endpoint
