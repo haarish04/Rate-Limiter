@@ -1,26 +1,14 @@
-function SlidingWindow(limit, windowSize) {
-  let count = limit;
-  let lastWindow = Date.now();
+class SlidingWindow {
+  constructor(window, limit) {
+    this.window = window;
+    this.limit = limit;
+    this.entries = {};
+  }
 
-  return function handleRequest() {
-    const now = Date.now();
-    const elapsed = now - lastWindow;
-
-    //Check if inside window
-    if (elapsed < windowSize) {
-      //Check if counter exceeded limit, we are calculating by decrementing
-      if (count >= 0) {
-        count -= 1;
-        return true;
-      } else return false;
-    }
-    //Create new window
-    else {
-      count = limit;
-      lastWindow = now;
-      return true;
-    }
-  };
+  getCurrentWindow() {
+    let currTime = Math.floor(Date.now() / 1000);
+    let offset = currTime % this.window;
+    return [currTime + offset, offset];
+  }
 }
-
 module.exports = SlidingWindow;
