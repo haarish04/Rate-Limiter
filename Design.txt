@@ -33,16 +33,7 @@ Fixed the code to call the function appropriately and also to generate error sta
 Results visible in Token Bucket testing figure
 
 Another thing to keep in mind is that postman lets us configure the number of users not specifically no. of requests per second, considering a response takes on average 3-4 ms. Per second there could be upto 250-333 requests per second. But at around 12 -13 requests per second, you can observe requests being failed.
-
-So the problem with fixed window is, we scam the window by sending a short burst of requests near the boundary of each window. Suppose a rate limiter implementation of 10 requests per 5 secs.
-in the first 2 secs we have 3 requests
-In the next 3 secs we have 7 requests
-After this the next window starts and so we can have,
-In the next 2 secs we have 8 requests
-Last 3 secs 2 requests.
-
-According to the algorithm this is allowed but if we notice, in the time period of 3 secs + 2 secs in the intersection of 2 windows, we have 15 requests which should fail.
-To tackle this we need sliding window 
+ 
 <---------------------------------------------------------------->
 
 The next implementation is using fixed window counter algorithm
@@ -55,6 +46,16 @@ To implement this, I used date.now() at every request and floor it to the neares
 For every request I also keep track of exact time and see if it falls under which second (which window) if count is 0 for that window, throttle the request, else accept it.
 If request minus window time is grater than 1 second, it falls under new window, refresh counter and start new window.
 
+So the problem with fixed window is, we scam the window by sending a short burst of requests near the boundary of each window. Suppose a rate limiter implementation of 10 requests per 5 secs.
+in the first 2 secs we have 3 requests
+In the next 3 secs we have 7 requests
+After this the next window starts and so we can have,
+In the next 2 secs we have 8 requests
+Last 3 secs 2 requests.
+
+According to the algorithm this is allowed but if we notice, in the time period of 3 secs + 2 secs in the intersection of the windows, we have 15 requests which should fail.
+To tackle this we need sliding window
+
 <---------------------------------------------------------------->
 
 The next algorithm is the sliding window log method.
@@ -66,4 +67,14 @@ If the request when added to the log would exceed the threshold rate, then it is
 
 The advantage of this algorithm is that it does not suffer from the boundary conditions of fixed windows. The limit will be enforced precisely and because the sliding log is tracked for each consumer, you don’t have the issue that every use can suddenly surge in requests each time a fixed window boundary passes.
 
-The disadvantage is that it needs to store an unlimited number of logs for every request. As the size of the logs grows it can become expensive to compute the summation over all the log entries. As a result it does not scale well to handle large bursts of traffic or denial of service attacks.
+As discussed in fixed window, the problem exists as there is a burst of requests around the boundary times. To tacke this taking the same example as before:
+
+in the first 2 secs we have 3 requests
+In the next 3 secs we have 7 requests
+After this the next window starts and so we can have,
+In the next 2 secs we have 8 requests
+Last 3 secs 2 requests.
+
+When the second window starts, at 2 secs we get 8 requests so we consider not only the current window, but we look at the 5 secs around this period.
+We observe how many requests were accepted in the previous 3 secs (windowsize 5 - 2 in next window). Previous window has 10 requests in 5 secs so that is on average 6 requests in previous 3 secs.
+Now in new window start 2 secs when 8 requests appear only are accepted
