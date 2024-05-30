@@ -33,6 +33,16 @@ Fixed the code to call the function appropriately and also to generate error sta
 Results visible in Token Bucket testing figure
 
 Another thing to keep in mind is that postman lets us configure the number of users not specifically no. of requests per second, considering a response takes on average 3-4 ms. Per second there could be upto 250-333 requests per second. But at around 12 -13 requests per second, you can observe requests being failed.
+
+So the problem with fixed window is, we scam the window by sending a short burst of requests near the boundary of each window. Suppose a rate limiter implementation of 10 requests per 5 secs.
+in the first 2 secs we have 3 requests
+In the next 3 secs we have 7 requests
+After this the next window starts and so we can have,
+In the next 2 secs we have 8 requests
+Last 3 secs 2 requests.
+
+According to the algorithm this is allowed but if we notice, in the time period of 3 secs + 2 secs in the intersection of 2 windows, we have 15 requests which should fail.
+To tackle this we need sliding window 
 <---------------------------------------------------------------->
 
 The next implementation is using fixed window counter algorithm
