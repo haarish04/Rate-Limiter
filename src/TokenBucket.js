@@ -14,12 +14,12 @@ class TokenBucket {
     const newToken = (elapsed * this.rate) / 1000;
 
     //min because if rate it too high and user is low, the tokens may go beyond capacity and we are calculating tokens and users on a decrementing basis
-    tokens = Math.min(this.max, this.tokens + newToken);
+    this.tokens = Math.min(this.max, this.tokens + newToken);
 
     //if tokens left in bucket decrement, if all used up, limit the users
-    if (tokens <= 0) return false;
+    if (this.tokens <= 0) return false;
 
-    tokens -= 1;
+    this.tokens -= 1;
     return true;
   }
 }
