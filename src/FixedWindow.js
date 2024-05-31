@@ -1,26 +1,30 @@
-function FixedWindow(limit, windowSize) {
-  let count = limit;
-  let lastWindow = Math.floor(Date.now() / 1000);
+class FixedWindow {
+  constructor(limit, windowSize) {
+    this.limit = limit;
+    this.windowSize = windowSize;
+    this.count = 0;
+    this.window = Date.now();
+  }
 
-  return function handleRequest() {
+  handle() {
     const now = Date.now();
-    const elapsed = now - lastWindow;
+    const offset = window - now;
 
     //Check if inside window
-    if (elapsed < windowSize) {
-      //Check if counter exceeded limit, we are calculating by decrementing
-      if (count >= 0) {
-        count -= 1;
+    if (offset < windowSize) {
+      //Check if counter exceeded limit,
+      if (count > this.limit) return false;
+      else {
+        count += 1;
         return true;
-      } else return false;
+      }
     }
-    //Create new window
-    else {
-      count = limit;
-      lastWindow = now;
-      return true;
-    }
-  };
+
+    //accept and create new window
+    this.count = 1;
+    this.window = now;
+    return true;
+  }
 }
 
 module.exports = FixedWindow;
