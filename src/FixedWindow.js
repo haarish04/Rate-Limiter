@@ -8,14 +8,14 @@ class FixedWindow {
 
   handle() {
     const now = Date.now();
-    const offset = window - now;
+    const offset = this.window - now;
 
     //Check if inside window
-    if (offset < windowSize) {
+    if (offset < this.windowSize) {
       //Check if counter exceeded limit,
-      if (count > this.limit) return false;
+      if (this.count > this.limit) return false;
       else {
-        count += 1;
+        this.count += 1;
         return true;
       }
     }

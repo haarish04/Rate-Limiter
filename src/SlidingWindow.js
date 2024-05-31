@@ -21,7 +21,7 @@ class SlidingWindow {
     //The weighted count will be considered now, suppose the new req comes in x secs after the window,
     //we consider the previous window and count the requests from x secs before window started
     //By doing this we consider the window while crossing the boundary as well
-    estimatedCount =
+    let estimatedCount =
       this.prevCount *
         ((this.windowSize - (this.now - this.lastWindow)) / this.windowSize) +
       this.count;
