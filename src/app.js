@@ -2,6 +2,7 @@ const express = require("express");
 const TokenBucket = require("./TokenBucket");
 const SlidingWindow = require("./SlidingWindow");
 const FixedWindow = require("./FixedWindow");
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -12,7 +13,7 @@ app.listen(PORT, () => {
 });
 
 const handleTokens = TokenBucket(25, 35); //25 tokens/sec and max capacity of 35
-const handleSlidingWindow = SlidingWindow(15, 1000); // 15 requests per second
+const handleSlidingWindow = new SlidingWindow(15, 1000); // 15 requests per second
 const handleFixedWindow = FixedWindow(15, 1000); // 15 requests per second
 
 //Landing page, using token bucket algo
@@ -23,7 +24,7 @@ app.get("/", (req, res) => {
 
 //Confirm status page, using fixed window algo
 app.get("/status", (req, res) => {
-  if (handleSlidingWindow()) res.send("Working!");
+  if (handleSlidingWindow.handle()) res.send("Working!");
   else res.status(429).send("Window overloaded");
 });
 
