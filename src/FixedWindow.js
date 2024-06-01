@@ -8,7 +8,7 @@ class FixedWindow {
 
   handle() {
     const now = Date.now();
-    const offset = this.window - now;
+    const offset = now - this.window;
 
     //Check if inside window
     if (offset < this.windowSize) {

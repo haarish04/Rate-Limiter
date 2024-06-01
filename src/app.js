@@ -12,7 +12,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-const handleTokens = new TokenBucket(15, 20); //15 tokens/sec and max capacity of 20
+const handleTokens = new TokenBucket(10, 20); //15 tokens/sec and max capacity of 20
 const handleSlidingWindow = new SlidingWindow(15, 1000); // 15 requests per second
 const handleFixedWindow = new FixedWindow(15, 1000); // 15 requests per second
 
