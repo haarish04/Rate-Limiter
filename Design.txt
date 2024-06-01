@@ -58,12 +58,11 @@ To tackle this we need sliding window
 
 <---------------------------------------------------------------->
 
-The next algorithm is the sliding window log method.
+The next algorithm is the sliding window method.
 
-Tracking a time stamped log for each consumer request. These logs are usually stored in a hash set or table that is sorted by time.
-Logs with timestamps beyond a threshold are discarded.
-When a new request comes in, we calculate the sum of logs to determine the request rate.
-If the request when added to the log would exceed the threshold rate, then it is declined.
+Like the fixed window algorithm, we maintain a counter for each fixed window. But we will need to store the current and the previous windows counts.
+We use a weighted count of the current and previous windows counts to determine the count for the sliding window. This helps smooth out the impact of burst of traffic. For example, if the current window is 40% through, then we weight the previous window’s count by 60% and add that to the current window count.
+As this algorithm stores relatively little data it suitable for scale, including scaling across distributed clusters.
 
 The advantage of this algorithm is that it does not suffer from the boundary conditions of fixed windows. The limit will be enforced precisely and because the sliding log is tracked for each consumer, you don’t have the issue that every use can suddenly surge in requests each time a fixed window boundary passes.
 
@@ -78,3 +77,11 @@ Last 3 secs 2 requests.
 When the second window starts, at 2 secs we get 8 requests so we consider not only the current window, but we look at the 5 secs around this period.
 We observe how many requests were accepted in the previous 3 secs (windowsize 5 - 2 in next window). Previous window has 10 requests in 5 secs so that is on average 6 requests in previous 3 secs.
 Now in new window start 2 secs when 8 requests appear only are accepted
+
+<---------------------------------------------------------------->
+
+After implementing these 3 algorithms the testing images can be found. Fixed window appears to show better request acceptance rate as compared to sliding window as it does not address the problem of high burst of requests around the boundary of window.
+If you have a hard limit on number of requests the API endpoint can handle, the sliding window is better as it maintains uniformity in accepting requests.
+Fixed window may put extra load on the endpoint and lead to undesirable effects 
+
+<---------------------------------------------------------------->
