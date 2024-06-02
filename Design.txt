@@ -85,3 +85,9 @@ If you have a hard limit on number of requests the API endpoint can handle, the 
 Fixed window may put extra load on the endpoint and lead to undesirable effects 
 
 <---------------------------------------------------------------->
+
+The next step is to extend the sliding window counter rate limiting to work across multiple servers.
+A database like Redis to store the count for the requests and have each server update the database so the rate limiting is shared across two or more servers.
+
+To test this run two (or more) servers each on a different port then verify that you can make the full allowance of request between the servers. 
+Example: limit the client to 60 requests per minute, send all 60 to one server in a couple of seconds with Postman and then use curl to hit the other server and verify the request is rejected.
