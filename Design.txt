@@ -91,3 +91,5 @@ A database like Redis to store the count for the requests and have each server u
 
 To test this run two (or more) servers each on a different port then verify that you can make the full allowance of request between the servers. 
 Example: limit the client to 60 requests per minute, send all 60 to one server in a couple of seconds with Postman and then use curl to hit the other server and verify the request is rejected.
+
+For this, I will be incorporating my own implementation of redis cache store, so as of 04/06/2024 this project will be on hold 
